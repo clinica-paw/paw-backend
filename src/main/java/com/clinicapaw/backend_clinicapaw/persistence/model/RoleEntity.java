@@ -23,6 +23,7 @@ public class RoleEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "role_name")
     private RoleEnum roleEnum;
 
 
@@ -32,5 +33,5 @@ public class RoleEntity {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "permission_id")
     )
-    private Set<PermissionEntity> permissions = new HashSet<>();
+    private Set<PermissionEntity> permissionsList = new HashSet<>();
 }

@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,26 +32,19 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
+                .httpBasic(Customizer.withDefaults())
                 .sessionManagement(httpSecuritySessionManagement ->
                         httpSecuritySessionManagement
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(httpRequests -> {
-                    httpRequests
-                            .requestMatchers(HttpMethod.POST, "/auth/sign-up-super-admin")
+                .authorizeHttpRequests(http -> {
+                    http
+                            .requestMatchers(HttpMethod.POST, "/auth/**")
                             .permitAll();
-                    httpRequests
-                            .requestMatchers(HttpMethod.POST, "/auth/sign-in")
-                            .hasAuthority("ROLE_SUPER_ADMIN");
-                    httpRequests
-                            .requestMatchers(HttpMethod.POST, "/auth/sign-in")
-                            .hasAuthority("ROLE_ADMIN");
-                    httpRequests
-                            .requestMatchers(HttpMethod.POST, "/auth/sign-in")
-                            .hasAuthority("ROLE_EMPLOYEE");
-                    httpRequests
-                            .anyRequest().denyAll();
+                    http
+                            .anyRequest()
+                            .denyAll();
                 })
-                .addFilterBefore(new JwtValidator(jwtUtil), BasicAuthenticationFilter.class)
+                .addFilterBefore(new JwtValidator(this.jwtUtil), BasicAuthenticationFilter.class)
                 .build();
     }
 

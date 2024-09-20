@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,52 +29,44 @@ public class JwtUtil {
     private String userGenerator;
 
     public String generateToken(Authentication authentication) {
-        try{
-            log.info("Generating token for user.");
+        log.debug("Generating JWT token for user: {}", authentication.getPrincipal());
 
-            Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
-            String username = authentication.getPrincipal().toString();
-            String authorities = authentication.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors
-                            .joining());
+        Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
 
-            String token = JWT.create()
-                    .withIssuer(this.userGenerator)
-                    .withSubject(username)
-                    .withClaim("authorities", authorities)
-                    .withIssuedAt(new Date())
-                    .withExpiresAt(new Date(System.currentTimeMillis()+1800000))
-                    .sign(algorithm);
+        String username = authentication.getPrincipal().toString();
+        String authorities = authentication.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors
+                        .joining(","));
+        log.debug("JWT Claims -> Username: {}, Authorities: {}", username, authorities);
 
-            log.info("Token successfully generated for user: {}", username);
-
-            return token;
-
-        }catch (JWTCreationException ex){
-            log.error("Failed to generate token for user: {}", authentication.getPrincipal(), ex);
-            throw new RuntimeException("Error generating token", ex);
-        }
+        return JWT.create()
+                .withIssuer(this.userGenerator)
+                .withSubject(username)
+                .withClaim("authorities", authorities)
+                .withIssuedAt(new Date())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 1800000))
+                .withJWTId(UUID.randomUUID().toString())
+                .withNotBefore(new Date(System.currentTimeMillis()))
+                .sign(algorithm);
     }
 
     public DecodedJWT verifyToken(String token) {
-        try{
-            log.info("Verifying token.");
+        log.debug("Verifying JWT token: {}", token);
 
+        try {
             Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
+
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer(this.userGenerator)
                     .build();
+            log.debug("JWT Verifier built successfully");
 
-            DecodedJWT decodedJWT = verifier.verify(token);
+            return verifier.verify(token);
 
-            log.info("Token successfully verified.");
-
-            return decodedJWT;
-
-        }catch (JWTVerificationException ex){
-            log.error("Token verification failed.", ex);
-            throw new RuntimeException("Invalid token", ex);
+        } catch (JWTVerificationException exception) {
+            log.error("Error verifying JWT token: {}", exception.getMessage());
+            throw new JWTVerificationException("Token invalid, not Authorized");
         }
     }
 
