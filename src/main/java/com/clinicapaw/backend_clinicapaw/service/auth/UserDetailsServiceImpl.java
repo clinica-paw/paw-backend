@@ -96,6 +96,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("Incorrect Password");
         }
 
+        log.debug("Password verified successfully for user: {}", username);
+
         return new UsernamePasswordAuthenticationToken(
                 username,
                 password,
@@ -120,7 +122,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         } catch (Exception e) {
             log.error("Login failed for user {}: {}", username, e.getMessage());
-            return new AuthResponse(username, "Login failed", null, false);
+            return new AuthResponse(username,
+                    "Login failed",
+                    null,
+                    false);
         }
     }
 }

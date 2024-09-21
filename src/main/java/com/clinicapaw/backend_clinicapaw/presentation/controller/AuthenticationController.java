@@ -18,6 +18,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest userRequest){
-        return new ResponseEntity<>(this.userDetailsService.login(userRequest), HttpStatus.OK);
+        return new ResponseEntity<>(this.userDetailsService.login(userRequest), HttpStatus.CREATED);
     }
 }

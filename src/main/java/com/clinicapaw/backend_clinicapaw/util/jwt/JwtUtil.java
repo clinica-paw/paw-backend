@@ -2,7 +2,6 @@ package com.clinicapaw.backend_clinicapaw.util.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -55,7 +54,7 @@ public class JwtUtil {
         log.debug("Verifying JWT token: {}", token);
 
         try {
-            Algorithm algorithm = Algorithm.HMAC256(this.privateKey);
+            Algorithm algorithm = Algorithm.HMAC256(privateKey);
 
             JWTVerifier verifier = JWT.require(algorithm)
                     .withIssuer(this.userGenerator)

@@ -63,6 +63,7 @@ public class JwtValidator extends OncePerRequestFilter {
 
             } catch (Exception e) {
                 log.error("Error verifying JWT token: {}", e.getMessage());
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token is invalid");
             }
 
         }else {
