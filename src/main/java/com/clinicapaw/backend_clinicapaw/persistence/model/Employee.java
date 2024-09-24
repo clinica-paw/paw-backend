@@ -4,9 +4,6 @@ import com.clinicapaw.backend_clinicapaw.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -41,6 +38,11 @@ public class Employee {
     private String direction;
 
     @Enumerated(EnumType.STRING)
-    private RoleEnum role = RoleEnum.EMPLOYEE ;
+    private RoleEnum role;
+
+    @PrePersist
+    public void prePersist(){
+        this.role = RoleEnum.EMPLOYEE;
+    }
 
 }

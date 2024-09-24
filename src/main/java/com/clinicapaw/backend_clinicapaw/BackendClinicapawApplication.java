@@ -18,7 +18,7 @@ import java.util.Set;
 @SpringBootApplication
 public class BackendClinicapawApplication {
 
-	private final SecurityConfig securityConfig;
+	/*private final SecurityConfig securityConfig;
 
 	private final IUserEntityRepository userRepository;
 
@@ -28,13 +28,13 @@ public class BackendClinicapawApplication {
 		this.securityConfig = securityConfig;
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
-	}
+	}*/
 
 	public static void main(String[] args) {
 		SpringApplication.run(BackendClinicapawApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public CommandLineRunner init() {
 		return args -> {
 			RoleEntity roleAdmin = RoleEntity.builder()
@@ -56,5 +56,5 @@ public class BackendClinicapawApplication {
 					.build();
 			userRepository.save(user);
 		};
-	}
+	}*/
 }

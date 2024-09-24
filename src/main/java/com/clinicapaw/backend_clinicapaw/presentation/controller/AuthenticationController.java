@@ -1,5 +1,6 @@
 package com.clinicapaw.backend_clinicapaw.presentation.controller;
 
+import com.clinicapaw.backend_clinicapaw.presentation.payload.auth.AuthCreateUserAdminRequest;
 import com.clinicapaw.backend_clinicapaw.presentation.payload.auth.AuthLoginRequest;
 import com.clinicapaw.backend_clinicapaw.presentation.payload.response.AuthResponse;
 import com.clinicapaw.backend_clinicapaw.service.auth.UserDetailsServiceImpl;
@@ -19,5 +20,10 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody @Valid AuthLoginRequest userRequest){
         return new ResponseEntity<>(this.userDetailsService.login(userRequest), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<AuthResponse> register(@RequestBody @Valid AuthCreateUserAdminRequest registerRequest) {
+        return new ResponseEntity<>(this.userDetailsService.createUserAdmin(registerRequest), HttpStatus.CREATED);
     }
 }
