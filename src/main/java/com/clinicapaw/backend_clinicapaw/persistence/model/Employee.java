@@ -4,6 +4,8 @@ import com.clinicapaw.backend_clinicapaw.enums.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
@@ -37,12 +39,21 @@ public class Employee {
     @Column(length = 100)
     private String direction;
 
+    @Column(name = "birth_date", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private LocalDate birthDate;
+
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
+
+    @Temporal(TemporalType.DATE)
+    @Column(name="create_at", columnDefinition = "DATE")
+    private LocalDate createAt;
 
     @PrePersist
     public void prePersist(){
         this.role = RoleEnum.EMPLOYEE;
+        this.createAt = LocalDate.now();
     }
 
 }

@@ -41,6 +41,9 @@ public class SecurityConfig {
                             .requestMatchers(HttpMethod.POST, "/auth/**")
                             .permitAll();
                     http
+                            .requestMatchers(HttpMethod.POST, "/api/v1/employee")
+                            .hasAuthority("ADMIN");
+                    http
                             .anyRequest()
                             .denyAll();
                 })

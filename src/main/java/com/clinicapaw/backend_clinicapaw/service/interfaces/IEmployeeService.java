@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface IEmployeeService {
 
-    EmployeeDTO getById (Long id);
+    EmployeeDTO getByDni(String dni);
 
     List<EmployeeDTO> getAll ();
 
     void save (EmployeeDTO employeeDTO);
 
-    void update (Long id, EmployeeDTO employeeDTO);
+    EmployeeDTO update (Long id, EmployeeDTO employeeDTO);
 
-    void delete (Long id);
+    void delete (String dni);
 }
