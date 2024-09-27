@@ -34,17 +34,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(httpSecuritySessionManagement ->
-                        httpSecuritySessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        httpSecuritySessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(http -> {
-                    http
-                            .requestMatchers(HttpMethod.POST, "/auth/**")
+                    http.requestMatchers(HttpMethod.POST, "/auth/**")
                             .permitAll();
-                    http
-                            .requestMatchers(HttpMethod.POST, "/api/v1/employee")
-                            .hasAuthority("ADMIN");
-                    http
-                            .anyRequest()
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/employee")
+                            .hasRole("ADMIN");
+                    http.anyRequest()
                             .denyAll();
                 })
                 .addFilterBefore(new JwtValidator(this.jwtUtil), BasicAuthenticationFilter.class)

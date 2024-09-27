@@ -21,12 +21,9 @@ public class RoleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role_name")
     private RoleEnum roleEnum;
-
-
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "role_permission",

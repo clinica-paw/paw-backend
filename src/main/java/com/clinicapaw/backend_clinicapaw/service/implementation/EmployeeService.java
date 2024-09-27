@@ -85,21 +85,13 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeDTO update(Long id, EmployeeDTO employeeDTO) {
         return employeeRepository.findById(id)
                 .map(employee -> {
-                    employee
-                            .setFirstName(employeeDTO.firstName());
-                    employee
-                            .setLastName(employeeDTO.lastName());
-                    employee
-                            .setDni(employeeDTO.dni());
-                    employee
-                            .setEmail(employeeDTO.email());
-                    employee
-                            .setPhoneNumber(employeeDTO.phoneNumber());
-                    employee
-                            .setDirection(employeeDTO.direction());
-
-                    employee
-                            .setBirthDate(employeeDTO.birthDate());
+                    employee.setFirstName(employeeDTO.firstName());
+                    employee.setLastName(employeeDTO.lastName());
+                    employee.setDni(employeeDTO.dni());
+                    employee.setEmail(employeeDTO.email());
+                    employee.setPhoneNumber(employeeDTO.phoneNumber());
+                    employee.setDirection(employeeDTO.direction());
+                    employee.setBirthDate(employeeDTO.birthDate());
 
                     employeeRepository.save(employee);
                     log.info("Employee successfully updated: {}", employee);
