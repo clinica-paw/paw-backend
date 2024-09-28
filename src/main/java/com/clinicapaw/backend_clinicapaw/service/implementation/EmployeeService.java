@@ -123,7 +123,7 @@ public class EmployeeService implements IEmployeeService {
                 })
                 .orElseThrow(() -> {
                     log.warn("Employee not found with id: {}", id);
-                    return new EntityNotFoundException("Employee not found with id: " + id);
+                    throw new EmployeeNotFoundException(id);
                 });
     }
 

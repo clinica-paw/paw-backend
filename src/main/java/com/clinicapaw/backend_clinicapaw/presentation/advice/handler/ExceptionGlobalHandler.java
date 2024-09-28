@@ -1,8 +1,6 @@
 package com.clinicapaw.backend_clinicapaw.presentation.advice.handler;
 
-import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedDniException;
-import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedEmailException;
-import com.clinicapaw.backend_clinicapaw.service.exception.EmployeeNotFoundException;
+import com.clinicapaw.backend_clinicapaw.service.exception.*;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,6 +19,16 @@ public class ExceptionGlobalHandler {
 
     @ExceptionHandler(EmployeeNotFoundException.class)
     public String handleEmployeeNotFoundException(EmployeeNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public String handleCustomerNotFoundException(CustomerNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ExceptionHandler(DuplicatedIDException.class)
+    public String handleDuplicatedIDException(DuplicatedIDException ex) {
         return ex.getMessage();
     }
 }

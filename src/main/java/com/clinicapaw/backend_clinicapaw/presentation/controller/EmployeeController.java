@@ -9,7 +9,6 @@ import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedDniExceptio
 import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedEmailException;
 import com.clinicapaw.backend_clinicapaw.service.exception.EmployeeNotFoundException;
 import com.clinicapaw.backend_clinicapaw.service.implementation.EmployeeService;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

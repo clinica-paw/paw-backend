@@ -32,8 +32,4 @@ public class Pet {
     private Double weight;
     @Column(length = 255)
     private String description;
-    @OneToOne(cascade = CascadeType.ALL, targetEntity = Customer.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
-
 }

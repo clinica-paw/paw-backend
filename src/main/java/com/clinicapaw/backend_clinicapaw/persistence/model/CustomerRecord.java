@@ -31,6 +31,7 @@ public class CustomerRecord {
     @Temporal(TemporalType.DATE)
     @Column(name="date", columnDefinition = "DATE")
     private LocalDate date;
+    private String description;
     @PrePersist
     public void prePersist(){
         this.date = LocalDate.now();
