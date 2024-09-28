@@ -49,15 +49,23 @@ public class RegisterUserService {
         log.debug("Extracted details - Username: {}, Email: {}", username, email);
         log.debug("Role request: {}", roleRequest);
 
+
+        //ASIGNAR ROL
         //buscamos el ROL de ADMIN ingresado y lo almacenamos
         //si noi encuentra el role, crea el rol y lo guarda en la base de datos
+        log.info("Starting to find or create the ADMIN role");
         RoleEntity userAdmin = roleRepository.findByRoleEnum(RoleEnum.ADMIN)
                 .orElseGet(() -> {
+                    log.warn("ADMIN role not found, creating a new one");
+
                     RoleEntity newRole = RoleEntity.builder()
                             .roleEnum(RoleEnum.ADMIN)
                             .build();
 
-                    return roleRepository.save(newRole);
+                    RoleEntity savedRole = roleRepository.save(newRole);
+                    log.info("New ADMIN role created with ID: {}", savedRole.getId());
+
+                    return savedRole;
                 });
 
         //si el rol no es ADMIN se lanza una excepcion

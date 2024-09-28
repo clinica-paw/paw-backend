@@ -1,6 +1,7 @@
 package com.clinicapaw.backend_clinicapaw.persistence.model;
 
 import com.clinicapaw.backend_clinicapaw.enums.RoleEnum;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,6 +14,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Builder
+@JsonSerialize( as = Employee.class )
 @Entity
 @Table(name = "employees")
 public class Employee {

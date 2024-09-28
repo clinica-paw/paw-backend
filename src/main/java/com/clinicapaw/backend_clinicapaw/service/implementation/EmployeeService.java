@@ -1,7 +1,10 @@
 package com.clinicapaw.backend_clinicapaw.service.implementation;
 
+import com.clinicapaw.backend_clinicapaw.enums.RoleEnum;
 import com.clinicapaw.backend_clinicapaw.persistence.model.Employee;
+import com.clinicapaw.backend_clinicapaw.persistence.model.RoleEntity;
 import com.clinicapaw.backend_clinicapaw.persistence.repository.IEmployeeRepository;
+import com.clinicapaw.backend_clinicapaw.persistence.repository.IRoleRepository;
 import com.clinicapaw.backend_clinicapaw.presentation.dto.EmployeeDTO;
 import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedDniException;
 import com.clinicapaw.backend_clinicapaw.service.exception.DuplicatedEmailException;
@@ -25,6 +28,8 @@ public class EmployeeService implements IEmployeeService {
     private final IEmployeeRepository employeeRepository;
 
     private final SendEmailService sendEmailService;
+
+    private final IRoleRepository roleRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -60,10 +65,28 @@ public class EmployeeService implements IEmployeeService {
             log.warn("DNI {} already exists in the database", employeeSave.getDni());
             throw new DuplicatedDniException(employeeSave.getDni());
         }
-
         if(employeeRepository.findByEmail(employeeSave.getEmail()).isPresent()) {
             log.warn("Email {} already exists in the database", employeeSave.getEmail());
             throw new DuplicatedEmailException(employeeSave.getEmail());
+        }
+
+        log.info("Starting to find or create the ADMIN role");
+        RoleEntity userEmployee = roleRepository.findByRoleEnum(RoleEnum.EMPLOYEE)
+                .orElseGet(() -> {
+                    log.warn("EMPLOYEE role not found, creating a new one");
+
+                    RoleEntity newRole = RoleEntity.builder()
+                            .roleEnum(RoleEnum.EMPLOYEE)
+                            .build();
+
+                    RoleEntity savedRole = roleRepository.save(newRole);
+                    log.info("New EMPLOYEE role created with ID: {}", savedRole.getId());
+
+                    return savedRole;
+                });
+        if (!RoleEnum.EMPLOYEE.equals(userEmployee.getRoleEnum())) {
+            log.warn("The entered role is not EMPLOYEE.");
+            throw new IllegalArgumentException("The role is not EMPLOYEE.");
         }
 
         employeeRepository.save(employeeSave);
