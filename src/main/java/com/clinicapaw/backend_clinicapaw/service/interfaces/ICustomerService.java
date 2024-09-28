@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ICustomerService {
 
-    CustomerDTO getByDni(Long id);
+    CustomerDTO getById(Long id);
 
     List<CustomerDTO> getAll ();
 
@@ -14,5 +14,5 @@ public interface ICustomerService {
 
     CustomerDTO update (Long id, CustomerDTO customerDTO);
 
-    void delete (Long id);
+    void deleteById (Long id);
 }

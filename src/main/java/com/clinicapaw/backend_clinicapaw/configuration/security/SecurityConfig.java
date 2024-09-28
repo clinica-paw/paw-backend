@@ -41,6 +41,24 @@ public class SecurityConfig {
                             .permitAll();
                     http.requestMatchers(HttpMethod.POST, "/api/v1/employee")
                             .hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/employee")
+                            .hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.GET , "/api/v1/employee/{dni}").
+                            hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.GET , "/api/v1/employees")
+                            .hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/employee/{dni}")
+                            .hasRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/api/v1/customer")
+                            .hasRole("EMPLOYEE");
+                    http.requestMatchers(HttpMethod.PUT, "/api/v1/customer")
+                            .hasRole("EMPLOYEE");
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/customer/{id}")
+                            .hasRole("EMPLOYEE");
+                    http.requestMatchers(HttpMethod.GET, "/api/v1/customers")
+                            .hasRole("EMPLOYEE");
+                    http.requestMatchers(HttpMethod.DELETE, "/api/v1/customer/{id}")
+                            .hasRole("EMPLOYEE");
                     http.anyRequest()
                             .denyAll();
                 })

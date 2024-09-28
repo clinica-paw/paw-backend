@@ -12,17 +12,18 @@ import com.clinicapaw.backend_clinicapaw.service.exception.EmployeeNotFoundExcep
 import com.clinicapaw.backend_clinicapaw.service.interfaces.IEmployeeService;
 import com.clinicapaw.backend_clinicapaw.util.email.EmailContentMessage;
 import com.clinicapaw.backend_clinicapaw.util.mapper.EmployeeMapper;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class EmployeeService implements IEmployeeService {
 
     private final IEmployeeRepository employeeRepository;
@@ -123,13 +124,13 @@ public class EmployeeService implements IEmployeeService {
                 })
                 .orElseThrow(() -> {
                     log.warn("Employee not found with id: {}", id);
-                    throw new EmployeeNotFoundException(id);
+                    return new EmployeeNotFoundException(id);
                 });
     }
 
     @Transactional
     @Override
-    public void delete(String dni) {
+    public void deleteByDni(String dni) {
         Employee employee = employeeRepository.findByDni(dni)
                 .orElseThrow(() -> {
                     log.error("Employee not found with DNI: {}", dni);

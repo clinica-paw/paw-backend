@@ -14,5 +14,5 @@ public interface IEmployeeService {
 
     EmployeeDTO update (Long id, EmployeeDTO employeeDTO);
 
-    void delete (String dni);
+    void deleteByDni (String dni);
 }

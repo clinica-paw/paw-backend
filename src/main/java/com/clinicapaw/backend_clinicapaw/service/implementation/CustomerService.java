@@ -11,19 +11,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class CustomerService implements ICustomerService {
 
     private final ICustomerRepository customerRepository;
 
     @Transactional(readOnly = true)
     @Override
-    public CustomerDTO getByDni(Long id) {
+    public CustomerDTO getById(Long id) {
         return customerRepository.findById(id)
                 .map(CustomerMapper::customerToCustomerDTO)
                 .orElseThrow(() -> {
@@ -83,7 +85,7 @@ public class CustomerService implements ICustomerService {
 
     @Transactional
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("Customer not found with DNI: {}", id);

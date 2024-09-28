@@ -28,10 +28,10 @@ public class CustomerRecord {
     @OneToOne(targetEntity = Employee.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "employee_id")
     private Employee employee;
+    private String description;
     @Temporal(TemporalType.DATE)
     @Column(name="date", columnDefinition = "DATE")
     private LocalDate date;
-    private String description;
     @PrePersist
     public void prePersist(){
         this.date = LocalDate.now();
