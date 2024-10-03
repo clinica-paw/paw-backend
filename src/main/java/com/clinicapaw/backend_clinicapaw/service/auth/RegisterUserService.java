@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 @Slf4j
@@ -105,8 +106,7 @@ public class RegisterUserService {
 
             log.debug("Adding permissions to authorities.");
             userCreated.getRoles().stream()
-                    .flatMap(roleEntity ->
-                            roleEntity.getPermissionsList().stream())
+                    .flatMap(roleEntity -> roleEntity.getPermissionsList() != null ? roleEntity.getPermissionsList().stream() : Stream.empty())
                     .forEach(permissionEntity ->
                             authorities.add(new SimpleGrantedAuthority(permissionEntity.getName())));
             log.debug("Permissions added to authorities");

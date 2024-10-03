@@ -1,19 +1,7 @@
 package com.clinicapaw.backend_clinicapaw;
 
-import com.clinicapaw.backend_clinicapaw.configuration.security.SecurityConfig;
-import com.clinicapaw.backend_clinicapaw.enums.RoleEnum;
-import com.clinicapaw.backend_clinicapaw.persistence.model.RoleEntity;
-import com.clinicapaw.backend_clinicapaw.persistence.model.UserEntity;
-import com.clinicapaw.backend_clinicapaw.persistence.repository.IRoleRepository;
-import com.clinicapaw.backend_clinicapaw.persistence.repository.IUserEntityRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.time.LocalDate;
-import java.util.Set;
 
 @SpringBootApplication
 public class BackendClinicapawApplication {

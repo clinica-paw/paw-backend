@@ -154,7 +154,7 @@ public class EmployeeController {
 
         } catch (DuplicatedDniException | DuplicatedEmailException exception) {
             log.warn("Error creating employee: {}", exception.getMessage());
-            throw exception;
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
         }
     }
 
@@ -232,7 +232,7 @@ public class EmployeeController {
 
         } catch (EmployeeNotFoundException employeeNotFoundException) {
             log.warn("Attempted to delete non-existing employee: {}", employeeNotFoundException.getMessage());
-            throw employeeNotFoundException;
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(employeeNotFoundException.getMessage());
 
         } catch (Exception ex) {
             log.error("Error occurred while deleting employee: {}", ex.getMessage());
